@@ -7,6 +7,7 @@ import random
 from collections import deque
 
 from environment import Environment
+from environment2 import Environment2
 
 # Environment class with state update function
 
@@ -91,18 +92,18 @@ def optimize_model(policy_net, target_net, optimizer, replay_buffer, batch_size,
     return loss.item()
 
 # Training hyperparameters
-state_size = 100  # Adjusted based on environment's state size
+state_size = 80  # Adjusted based on environment's state size
 action_size = 20  # Number of actions
 batch_size = 128
 gamma = 0.99
 epsilon_start = 1.0
 epsilon_end = 0.0
-epsilon_decay = 300
+epsilon_decay = 200
 learning_rate = 1e-3
 target_update = 10
 
 # Initialize components
-env = Environment()
+env = Environment2()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 policy_net = DQN(state_size, action_size).to(device)
@@ -117,8 +118,8 @@ nodes = {}
 losses = []
 # Training loop
 
-num_episodes = 1000
-num_tasks = 300
+num_episodes = 500
+num_tasks = 200
 for episode in range(num_episodes):
     state = env.reset()
     total_reward = 0
